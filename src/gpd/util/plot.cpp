@@ -384,6 +384,24 @@ void Plot::plotHand3D(PCLVisualizer &viewer, const candidate::Hand &hand,
   const double base_depth = 0.02;
   const double approach_depth = 0.07;
 
+  Eigen::Matrix3d orientation_;
+  orientation_ << 1, 0, 0,
+                  0, 1, 0,
+                  0, 0, 1;
+
+  // Eigen::Vector3d left_bottom =
+  //     hand.getPosition() - (hw - 0.5 * finger_width) * orientation_.col(1);//hand.getBinormal();
+  // Eigen::Vector3d right_bottom =
+  //     hand.getPosition() + (hw - 0.5 * finger_width) * orientation_.col(1);//hand.getBinormal();
+  // Eigen::VectorXd left_center =
+  //     left_bottom + 0.5 * hand_depth * orientation_.col(0); //hand.getApproach();
+  // Eigen::VectorXd right_center =
+  //     right_bottom + 0.5 * hand_depth * orientation_.col(0); //hand.getApproach();
+  // Eigen::Vector3d base_center = left_bottom +
+  //                               0.5 * (right_bottom - left_bottom) -
+  //                               0.01 * orientation_.col(0);//hand.getApproach();
+  // Eigen::Vector3d approach_center = base_center - 0.04 * orientation_.col(0);//hand.getApproach();
+
   Eigen::Vector3d left_bottom =
       hand.getPosition() - (hw - 0.5 * finger_width) * hand.getBinormal();
   Eigen::Vector3d right_bottom =
@@ -397,17 +415,41 @@ void Plot::plotHand3D(PCLVisualizer &viewer, const candidate::Hand &hand,
                                 0.01 * hand.getApproach();
   Eigen::Vector3d approach_center = base_center - 0.04 * hand.getApproach();
 
+
+  // std::cout << "Position within plot" << hand.getPosition() << std::endl;
+  // std::cout << "Orientation within plot" << hand.getFrame() << std::endl;
+
+  // std::ofstream file("grasp_from_gpd.txt");
+  // if (file.is_open()) {
+  //   file << hand.getPosition().transpose() << '\n';
+  //   file << hand.getFrame();
+  // }
+
+
   const Eigen::Quaterniond quat(hand.getFrame());
+  // const Eigen::Quaterniond quat(orientation_);
   const std::string num = std::to_string(idx);
 
   plotCube(viewer, left_center, quat, hand_depth, finger_width, hand_height,
            "left_finger_" + num, rgb);
   plotCube(viewer, right_center, quat, hand_depth, finger_width, hand_height,
            "right_finger_" + num, rgb);
+  // std::cout << "Base center" << base_center << std::endl;
   plotCube(viewer, base_center, quat, base_depth, outer_diameter, hand_height,
            "base_" + num, rgb);
+  // std::cout << "Approach center" << approach_center << std::endl;
   plotCube(viewer, approach_center, quat, approach_depth, finger_width,
            0.5 * hand_height, "approach_" + num, rgb);
+
+  // plotCube(viewer, hand.getPosition(), quat, 0.01, 0.01,
+  //          0.01, "center_" + num, rgb);
+
+  // Eigen::Vector3d temp_pos(0.0, 0.0, 0.0);
+  // const Eigen::Quaterniond temp_quat(1,0,0,0);
+  // std::cout << quat.w() << std::endl;
+  // std::cout << quat.vec() << std::endl;
+  // plotCube(viewer, temp_pos, quat, 0.01, 0.01,
+  //          0.1, "temp_" + num, rgb);
 }
 
 void Plot::plotCube(PCLVisualizer &viewer, const Eigen::Vector3d &position,

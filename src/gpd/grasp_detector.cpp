@@ -1,5 +1,6 @@
 #include <gpd/grasp_detector.h>
-
+#include <gpd/candidate/hand_search.h>
+#include<iostream>
 namespace gpd {
 
 GraspDetector::GraspDetector(const std::string &config_filename) {
@@ -293,6 +294,7 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::detectGrasps(
       }
     }
     if (plot_clustered_grasps_) {
+      
       plotter_->plotFingers3D(clusters, cloud.getCloudOriginal(),
                               "Clustered Grasps", hand_geom);
     }
@@ -320,12 +322,43 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::detectGrasps(
   printf(" TOTAL: %3.4fs\n", t_total);
 
   if (plot_selected_grasps_) {
+    std::cout << cloud.getCloudOriginal()->size()<< std::endl;
+    int kk = 0;
+    for(kk=0; kk < 10; kk++) {
+      std::cout << cloud.getCloudOriginal()->points[kk] << std::endl;
+    }
+    // const candidate::HandGeometry &hand_geometry =
+    // candidates_generator_->getHandSearchParams().hand_geometry_;
+    // int bla = 10;
+    // std::vector<std::unique_ptr<candidate::Hand>> clusters2;
+    // gpd::candidate::FingerHand finger_hand2(hand_geometry.finger_width_,
+    //                         hand_geometry.outer_diameter_,
+    //                         hand_geometry.depth_,
+    //                         bla);
+    // std::unique_ptr<candidate::Hand> &Hand2(clusters[0]->getSample(),clusters[0]->getFrame(), finger_hand2);
+
+    // clusters2 = clusters;
+    // // clusters2.erase(0);
+    // clusters2.push_back(std::move(Hand2));
+    
     plotter_->plotFingers3D(clusters, cloud.getCloudOriginal(),
                             "Selected Grasps", hand_geom, false);
   }
 
+
+  // std::cout << "Value pointed ptr   " << *clusters.at(0) << std::endl;
+  // std::cout << *clusters << std::endl;
+  // std::vector<std::unique_ptr<candidate::Hand>> clusters;
+  // writeHandsT
+  // std::cout << clusters[0];
+  // writeHandsToFile('extracted_grasps.txt',clusters[0])
+  // printf(clusters);
+
+
   return clusters;
 }
+
+
 
 void GraspDetector::preprocessPointCloud(util::Cloud &cloud) {
   candidates_generator_->preprocessPointCloud(cloud);

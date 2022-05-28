@@ -1,6 +1,7 @@
 #include <string>
-
+#include <gpd/candidate/hand.h>
 #include <gpd/grasp_detector.h>
+#include <fstream>
 
 namespace gpd {
 namespace apps {
@@ -16,6 +17,10 @@ bool checkFileExists(const std::string &file_name) {
   file.close();
   return true;
 }
+
+
+
+
 
 int DoMain(int argc, char *argv[]) {
   // Read arguments from command line.
@@ -78,12 +83,87 @@ int DoMain(int argc, char *argv[]) {
     printf("Reversing normal directions ...\n");
     cloud.setNormals(cloud.getNormals() * (-1.0));
   }
+  std::vector<std::unique_ptr<candidate::Hand>> clusters;
 
-  // Detect grasp poses.
-  detector.detectGrasps(cloud);
+
+  // clusters = detector.detectGrasps(cloud);
+  clusters = detector.detectGrasps(cloud);
+
+  std::cout<< "saving clusters" << std::endl;
+  std::cout<< clusters.front().get() << std::endl;
+
+  auto& grasp = clusters[0];
+
+  // // auto& hand = *grasp;
+  // // cout << grasp->getScore() << endl;
+  // // cout << grasp->getCenter() << endl;
+
+  // // cout << grasp->&getFrame() << endl;
+  // // Eigen::Matrix3d orientation = grasp->getOrientation();
+  // Eigen::Matrix3d orientation = grasp->getFrame();
+  // Eigen::Vector3d position = grasp->getPosition();
+  // std::cout << grasp->getBottom() << std::endl;
+  // // Eigen::Vector3d position = grasp->getBottom();
+  // cout << position << endl;
+  // cout << orientation << endl;
+  
+  std::ofstream save_file;
+  save_file.open("grasp_from_gpd.csv");
+  int kk = 0;
+  for(kk=0; kk<clusters.size(); kk++) {
+    auto& grasp = clusters[kk];
+    Eigen::Matrix3d orientation = grasp->getFrame();
+    Eigen::Vector3d position = grasp->getPosition();
+    cout << "new grasp: " << endl;
+    cout << grasp->getScore() << endl;
+    cout << position.x() << position.y()  << endl;
+    cout << orientation(0,0) << endl;
+
+    save_file << grasp->getScore() << "," << position.x() << "," << position.y() << "," << position.z()\
+              << orientation(0,0) << "," << orientation(0,1) << "," << orientation(0,2) << ","\
+              << orientation(1,0) << "," << orientation(1,1) << "," << orientation(1,2) << ","\
+              << orientation(2,0) << "," << orientation(2,1) << "," << orientation(2,2) << endl;
+  }
+  save_file.close();
+
+
+
+  // std::ofstream file("grasp_from_gpd.txt");
+  // if (file.is_open()) {
+  //   file << position.transpose() << '\n';
+  //   file << orientation;
+  // }
+
+  // grasp->writeHandsToFile("hands.txt", *grasp);
+
+// hand_list[i]
+
+  // std::cout<< clusters.front().get() << std::endl;
+  // clusters.front().writeHandsToFile("clusters.txt", clusters.front())
+  // std::cout<< clusters.front().get() << std::endl;
+
+
+  // cout << clusters.at(0) << endl;
+
+  // candidate::Hand * ptr = clusters.front().get();
+  // std::cout << *ptr << endl;
+
+  // clusters.front()->writeHandsToFile("clusters.txt", *clusters.at(0).get());
+
+
+
+  // cout << clusters.at(0)->writeHandsToFile("clusters.txt", clusters.at(0)) << endl;
+  // for (std::vector<int>::iterator it = clusters.begin() ; it != clusters.end(); ++it)
+    // std::cout << ' ' << *it;
+  // std::cout << '\n';
+  // std::cout << "Value pointed ptr   " << clusters.size() << std::endl;
+  // std::cout << *clusters << std::endl;
 
   return 0;
 }
+
+
+
 
 }  // namespace detect_grasps
 }  // namespace apps

@@ -159,6 +159,12 @@ class Hand {
   const Eigen::Vector3d &getPosition() const { return position_; }
 
   /**
+   * \brief Return the position of the grasp.
+   * \return the grasp position
+   */
+  // const FingerHand &getFingerHand() const { return position_; }
+
+  /**
    * \brief Return the orientation of the grasp.
    * \return the grasp orientation (rotation matrix)
    */
