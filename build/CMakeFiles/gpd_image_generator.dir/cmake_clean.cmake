@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_image_generator.dir/src/gpd/descriptor/image_generator.cpp.o"
-  "libgpd_image_generator.pdb"
   "libgpd_image_generator.a"
+  "libgpd_image_generator.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

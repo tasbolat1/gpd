@@ -250,3 +250,18 @@ clutter**](http://arxiv.org/abs/1603.01564). IROS 2016, pp. 598-605.
 1. `make clean`
 1. Remove the `build` folder and rebuild.
 1. Update *gcc* and *g++* to a version > 5.
+
+
+
+### MODIFIED BY TASBOLAT
+
+```
+to generate pcd from pcl, run:
+```
+
+to generate grasps for simulation experiment, run
+```
+./detect_grasps ../cfg/eigen_params.cfg ../../grasp_network/data/pcd mug 8 /home/tasbolat/some_python_examples/GRASP/gpd_sampled_grasps
+
+```
+

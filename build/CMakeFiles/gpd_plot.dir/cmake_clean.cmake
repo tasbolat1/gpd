@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_plot.dir/src/gpd/util/plot.cpp.o"
-  "libgpd_plot.pdb"
   "libgpd_plot.a"
+  "libgpd_plot.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

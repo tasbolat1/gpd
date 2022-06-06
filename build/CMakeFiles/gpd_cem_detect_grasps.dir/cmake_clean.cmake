@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_cem_detect_grasps.dir/src/cem_detect_grasps.cpp.o"
-  "cem_detect_grasps.pdb"
   "cem_detect_grasps"
+  "cem_detect_grasps.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

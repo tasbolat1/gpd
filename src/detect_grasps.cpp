@@ -2,7 +2,11 @@
 #include <gpd/candidate/hand.h>
 #include <gpd/grasp_detector.h>
 #include <fstream>
-
+#include <bits/stdc++.h>
+#include <iostream>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <boost/filesystem.hpp>
 namespace gpd {
 namespace apps {
 namespace detect_grasps {
@@ -35,7 +39,29 @@ int DoMain(int argc, char *argv[]) {
   }
 
   std::string config_filename = argv[1];
-  std::string pcd_filename = argv[2];
+  std::string pcd_dir = argv[2];
+  std::string cat = argv[3];
+  std::string idx = argv[4];
+  std::string dir = argv[5];
+  
+
+
+  size_t n = 3;
+ 
+  int precision = n - std::min(n, idx.size());
+  idx.insert(0, precision, '0');
+
+
+  std::string pcd_filename = pcd_dir + "/" + cat + "/" + cat + idx + ".pcd";
+  std::string save_dir = dir + "/" + cat;
+  std::string save_path = save_dir  + "/" + cat + idx + "_gpd_grasps.csv";
+  // std::string save_path = save_dir + "/" + cat + "/" + cat + idx + "_gpd_grasps.csv";
+  
+  
+  // std::string normals_filename = argv[3];
+  std::cout << pcd_filename;
+  // return 0
+
   if (!checkFileExists(config_filename)) {
     printf("Error: config file not found!\n");
     return (-1);
@@ -64,12 +90,12 @@ int DoMain(int argc, char *argv[]) {
   }
 
   // Load surface normals from file.
-  if (argc > 3) {
-    std::string normals_filename = argv[3];
-    cloud.setNormalsFromFile(normals_filename);
-    std::cout << "Loaded surface normals from file: " << normals_filename
-              << "\n";
-  }
+  // if (argc > 3) {
+  //   std::string normals_filename = argv[3];
+  //   cloud.setNormalsFromFile(normals_filename);
+  //   std::cout << "Loaded surface normals from file: " << normals_filename
+  //             << "\n";
+  // }
 
   GraspDetector detector(config_filename);
 
@@ -89,10 +115,9 @@ int DoMain(int argc, char *argv[]) {
   // clusters = detector.detectGrasps(cloud);
   clusters = detector.detectGrasps(cloud);
 
-  std::cout<< "saving clusters" << std::endl;
-  std::cout<< clusters.front().get() << std::endl;
+  // std::cout<< clusters.front().get() << std::endl;
 
-  auto& grasp = clusters[0];
+  // auto& grasp = clusters[0];
 
   // // auto& hand = *grasp;
   // // cout << grasp->getScore() << endl;
@@ -108,16 +133,30 @@ int DoMain(int argc, char *argv[]) {
   // cout << orientation << endl;
   
   std::ofstream save_file;
-  save_file.open("grasp_from_gpd.csv");
+  // save_file.open("grasp_from_gpd.csv");
+
+
+  // const char* dirname = save_dir.c_str();
+  // // Creating a directory
+  // if (mkdir(dirname, 0777) == -1)
+  //     cerr << "Error :  " << strerror(errno) << endl;
+  // else
+  //     mkdir(dirname, 0777);
+  //     cout << "Directory created";
+  // cout << save_dir << endl;
+  boost::filesystem::create_directories(save_dir);
+  save_file.open(save_path);
+  std::cout<< "saving clusters" << clusters.size() << std::endl;
+
   int kk = 0;
   for(kk=0; kk<clusters.size(); kk++) {
     auto& grasp = clusters[kk];
     Eigen::Matrix3d orientation = grasp->getFrame();
     Eigen::Vector3d position = grasp->getPosition();
-    cout << "new grasp: " << endl;
-    cout << grasp->getScore() << endl;
-    cout << position.x() << position.y()  << endl;
-    cout << orientation(0,0) << endl;
+    // cout << "new grasp: " << endl;
+    // cout << grasp->getScore() << endl;
+    // cout << position.x() << position.y()  << endl;
+    // cout << orientation(0,0) << endl;
 
     save_file << grasp->getScore() << "," << position.x() << "," << position.y() << "," << position.z()\
               << orientation(0,0) << "," << orientation(0,1) << "," << orientation(0,2) << ","\

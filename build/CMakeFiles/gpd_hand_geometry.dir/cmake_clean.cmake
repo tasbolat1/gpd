@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_hand_geometry.dir/src/gpd/candidate/hand_geometry.cpp.o"
-  "libgpd_hand_geometry.pdb"
   "libgpd_hand_geometry.a"
+  "libgpd_hand_geometry.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_generate_candidates.dir/src/generate_candidates.cpp.o"
-  "generate_candidates.pdb"
   "generate_candidates"
+  "generate_candidates.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

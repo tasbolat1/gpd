@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_antipodal.dir/src/gpd/candidate/antipodal.cpp.o"
-  "libgpd_antipodal.pdb"
   "libgpd_antipodal.a"
+  "libgpd_antipodal.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

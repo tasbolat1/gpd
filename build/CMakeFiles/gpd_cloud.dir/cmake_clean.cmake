@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_cloud.dir/src/gpd/util/cloud.cpp.o"
-  "libgpd_cloud.pdb"
   "libgpd_cloud.a"
+  "libgpd_cloud.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/gpd_test_grasp_image.dir/src/tests/test_grasp_image.cpp.o"
-  "test_grasp_image.pdb"
   "test_grasp_image"
+  "test_grasp_image.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
