@@ -42,8 +42,7 @@ int DoMain(int argc, char *argv[]) {
   std::string pcd_dir = argv[2];
   std::string cat = argv[3];
   std::string idx = argv[4];
-  std::string env_num = argv[5];
-  std::string dir = argv[6];
+  std::string dir = argv[5];
   
 
 
@@ -53,9 +52,9 @@ int DoMain(int argc, char *argv[]) {
   idx.insert(0, precision, '0');
 
 
-  std::string pcd_filename = pcd_dir + "/" + cat + "/" + cat + idx + "_" + env_num + ".pcd";
+  std::string pcd_filename = pcd_dir + "/" + cat + "/" + cat + idx + ".pcd";
   std::string save_dir = dir + "/" + cat;
-  std::string save_path = save_dir  + "/" + cat + idx + "_" + env_num + "_gpd_grasps.csv";
+  std::string save_path = save_dir  + "/" + cat + idx + "_gpd_grasps.csv";
   // std::string save_path = save_dir + "/" + cat + "/" + cat + idx + "_gpd_grasps.csv";
   
   
@@ -147,7 +146,7 @@ int DoMain(int argc, char *argv[]) {
   // cout << save_dir << endl;
   boost::filesystem::create_directories(save_dir);
   save_file.open(save_path);
-  std::cout<< "Saving grasps with size of " << clusters.size() << std::endl;
+  std::cout<< "saving clusters" << clusters.size() << std::endl;
 
   int kk = 0;
   for(kk=0; kk<clusters.size(); kk++) {
@@ -158,16 +157,13 @@ int DoMain(int argc, char *argv[]) {
     // cout << grasp->getScore() << endl;
     // cout << position.x() << position.y()  << endl;
     // cout << orientation(0,0) << endl;
-  
 
-    save_file << grasp->getScore() << "," << position.x() << "," << position.y() << "," << position.z() << ","\
+    save_file << grasp->getScore() << "," << position.x() << "," << position.y() << "," << position.z()\
               << orientation(0,0) << "," << orientation(0,1) << "," << orientation(0,2) << ","\
               << orientation(1,0) << "," << orientation(1,1) << "," << orientation(1,2) << ","\
               << orientation(2,0) << "," << orientation(2,1) << "," << orientation(2,2) << endl;
   }
   save_file.close();
-
-  std::cout << "Done." << std::endl;
 
 
 

@@ -305,10 +305,10 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::detectGrasps(
 
   // 7. Sort grasps by their score.
   std::sort(clusters.begin(), clusters.end(), isScoreGreater);
-  printf("======== Selected grasps ========\n");
-  for (int i = 0; i < clusters.size(); i++) {
-    std::cout << "Grasp " << i << ": " << clusters[i]->getScore() << "\n";
-  }
+  // printf("======== Selected grasps ========\n");
+  // for (int i = 0; i < clusters.size(); i++) {
+  //   std::cout << "Grasp " << i << ": " << clusters[i]->getScore() << "\n";
+  // }
   printf("Selected the %d best grasps.\n", (int)clusters.size());
   double t_total = omp_get_wtime() - t0_total;
 
@@ -446,7 +446,7 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::selectGrasps(
 
   for (int i = 0; i < middle; i++) {
     hands_out.push_back(std::move(hands[i]));
-    printf(" grasp #%d, score: %3.4f\n", i, hands_out[i]->getScore());
+    //printf(" grasp #%d, score: %3.4f\n", i, hands_out[i]->getScore());
   }
 
   return hands_out;
